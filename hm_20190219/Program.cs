@@ -38,6 +38,7 @@ namespace hm_20190219
         
     }
 
+    //1.	Создать класс с несколькими свойствами. Реализовать перегрузку операторов ==, != и Equals.
     public class Human
     {
         public string Name { get; set; }
@@ -90,6 +91,8 @@ namespace hm_20190219
 
     }
 
+    //2.	Дан класс содержащий внутри себя массив. 
+    //Реализовать перегрузку операторов < , > так, чтобы если сумма элементов массива 1 класса больше, возвращалось значение true и наоборот.
     public class Arr
     {
         public List<int> a = null;
@@ -130,6 +133,11 @@ namespace hm_20190219
         }
     }
 
+    //3.	Задание будет базироваться на примере в этом уроке. 
+    //Необходимо реализовать второй вариант сложения денег – чтобы можно было суммировать деньги в разных валютах. 
+    //Для этого создайте отдельный класс, который будет предоставлять механизм конвертации денег по заданному курсу. 
+    //Кроме этого, перегрузите для класса Money оператор сравнения «==» (при перегрузке данного оператора, 
+    //обязательной является и перегрузка противоположного ему оператора «!=»).
     public enum currency {kzt=0, usd=1, rur=2};    
     public class Money
     {
@@ -174,5 +182,101 @@ namespace hm_20190219
         {
             Sum = b.Amount * Convert.ToDecimal(kurs);
         }
+    }
+
+    //4.	Класс – одномерный массив. Дополнительно перегрузить следующие операции: 
+    //* – умножение массивов; [] – доступ по индексу, int() – размер массива; == – проверка на равенство; <= – сравнение
+    public class A
+    {
+        private int[] arr = null;
+        public int this[int index]
+        {
+            get
+            {
+                return arr[index];
+            }
+            set
+            {
+                arr[index] = value;
+            }
+        }
+        public A()
+        {
+            arr = new int[10];
+        }
+        public A(int num)
+        {
+            arr = new int[num];
+        }
+        public static A operator * (A x, A y)
+        {
+            if (x.arr.Length != y.arr.Length)
+                throw new Exception("Размеры массивов не равны!");
+            A z = new A(x.arr.Length);
+            for (int i = 0; i < x.arr.Length; i++)
+            {
+                z.arr[i] = x.arr[i] * y.arr[i];
+            }
+            return z;
+        }
+        public static bool operator ==(A x, A y)
+        {
+            if (x.arr.Length != y.arr.Length)
+                return false;
+            else
+            {
+                for (int i = 0; i < x.arr.Length; i++)
+                {
+                    if (x.arr[i] != y.arr[i])
+                        return false;
+                }
+                return true;
+            }
+        }
+
+        public static bool operator !=(A x, A y)
+        {
+            if (x.arr.Length != y.arr.Length)
+                return true;
+            else
+            {
+                for (int i = 0; i < x.arr.Length; i++)
+                {
+                    if (x.arr[i] != y.arr[i])
+                        return true;
+                }
+                return false;
+            }
+        }
+
+        public static bool operator <=(A x, A y)
+        {
+            int sum1 = 0, sum2 = 0;
+            for (int i = 0; i < x.arr.Length; i++)
+            {
+                sum1 += x.arr[i];
+            }
+            for (int i = 0; i < y.arr.Length; i++)
+            {
+                sum2 += y.arr[i];
+            }
+            return sum1 <= sum2;
+        }
+
+        public static bool operator >=(A x, A y)
+        {
+            int sum1 = 0, sum2 = 0;
+            for (int i = 0; i < x.arr.Length; i++)
+            {
+                sum1 += x.arr[i];
+            }
+            for (int i = 0; i < y.arr.Length; i++)
+            {
+                sum2 += y.arr[i];
+            }
+            return sum1 >= sum2;
+        }
+
+
     }
 }
